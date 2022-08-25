@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  
+  react:
+    container_name: lazarillo_react_frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '/node_modules'
+    ports:
+      - 3000:3000    
