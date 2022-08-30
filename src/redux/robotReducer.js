@@ -1,4 +1,4 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState = {
     robots: [],
@@ -9,11 +9,10 @@ const robotsSlice = createSlice({
     name: 'robots',
     initialState,
     reducers: {
-        fetchRobotsList(state, action){
-            robots = [
-                {name: "aadsdas" , address: "ws:/dfads", version: "091"}
-            ]
-            updatedRobots = true;
+        fetchRobotsList(state, action) {
+            state.robots = action.payload;
+            state.updatedRobots = true;
+            console.log("Robots list: ", state.robots);
         }
     }
 })

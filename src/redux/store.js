@@ -3,6 +3,6 @@ import robotReducer from "./robotReducer";
 
 export const store = configureStore({
     reducer: {
-        robots: robotReducer,  
+        robots: robotReducer,
     }
 })

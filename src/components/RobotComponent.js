@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Paper, Typography } from "@mui/material";
+import { Grid, IconButton, Paper, Typography } from "@mui/material";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { SignalWifi3Bar, SignalWifiOff } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -12,7 +12,7 @@ const RobotComponent = ({ item }) => {
 
     const socketUrl = item.address;
     const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
-    const { connectionIcon, setConnectionIcon } = useState();
+    const [connectionIcon, setConnectionIcon] = useState();
 
     const connectionStatus = {
         [ReadyState.CONNECTING]: 'Connecting',
@@ -27,7 +27,7 @@ const RobotComponent = ({ item }) => {
             console.log("last message: ", lastMessage.data);
         }
 
-        if (connectionStatus === ReadyState.OPEN) {
+        if (readyState === ReadyState.OPEN) {
             setConnectionIcon(<SignalWifi3Bar color="success" />);
         }
         else {
@@ -38,20 +38,29 @@ const RobotComponent = ({ item }) => {
 
     return (
         item ?
-            <Paper elevation="12" sx={{ m: 1 }}>
-                <Typography variant="subtitle1" >
-                    {item.name}
-                </Typography>
-
-                <Typography variant="body2" >
-                    {item.version}
-                </Typography>
-
-                {connectionIcon}
-
-                <Button onClick={handleClick}>
-                    <DeleteIcon />
-                </Button>
+            <Paper elevation={8} sx={{ m: 1, p: 2, width: 250 }}>
+                <Grid container>
+                    <Grid item xs={10}>
+                        <Typography variant="h6" >
+                            {item.name}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <IconButton disabled>
+                            {connectionIcon}
+                        </IconButton>
+                    </Grid>
+                    <Grid item xs={10}>
+                        <Typography variant="subtitle1" >
+                            {item.version}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <IconButton onClick={handleClick}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Grid>
+                </Grid>
             </Paper>
             : <></>
     );

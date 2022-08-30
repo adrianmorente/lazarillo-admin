@@ -1,46 +1,36 @@
-import { Grid } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import RobotComponent from "./RobotComponent";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import ViewLayer from "../ViewLayer";
+import { fetchRobotsList } from "../redux/robotReducer";
 
 const Robots = () => {
-    // const dispatch = useDispatch(); 
+    const dispatch = useDispatch();
+    const { robots, updatedRobots } = useSelector((state) => state.robots);
 
-    const [answer, setAnswer] = useState([]);
-
-    const getAnswer = async () => {
-        const res = await fetch("http://localhost:5000/devices");
-        const data = await res.json();
-        console.log(data);
-        setAnswer(data);
-    };
-
-    // const Item = {
-    //     name: 'Lazarillo Hall',
-    //     address: 'ws://localhost',
-    //     version: '1.0'
-    // };
-
-    // const answer = [Item, Item, Item];
-
-    // useEffect(() => {
-    //     const timer = setInterval(getAnswer, 2000);
-    //     return () => clearInterval(timer);
-    // }, []);
+    if (!updatedRobots) {
+        fetch("http://localhost:5000/devices").then((res) =>
+            res.json()
+        ).then((data) => {
+            dispatch(fetchRobotsList(data.data));
+        });
+    }
 
     return (
-        <div>{JSON.stringify(answer)}</div>
-        // <Paper>
-        //     <Grid container alignItems="center" padding={5}>
-        //         {
-        //             answer.map((item) =>
-        //                 <Grid item xs={3}>
-        //                     <RobotComponent item={item}></RobotComponent>
-        //                 </Grid>
-        //             )
-        //         }
-        //     </Grid>
-        // </Paper>
+        <ViewLayer>
+            <Paper>
+                <Grid container alignItems="center" padding={2}>
+                    {
+                        robots.map((item, index) =>
+                            <Grid item key={index}>
+                                <RobotComponent key={index} item={item}></RobotComponent>
+                            </Grid>
+                        )
+                    }
+                </Grid>
+            </Paper>
+        </ViewLayer>
     );
 }
 
