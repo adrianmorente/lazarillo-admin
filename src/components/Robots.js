@@ -1,8 +1,10 @@
 import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import RobotComponent from "./RobotComponent";
+import { useDispatch } from 'react-redux'
 
 const Robots = () => {
+    // const dispatch = useDispatch(); 
 
     const [answer, setAnswer] = useState([]);
 
@@ -21,22 +23,24 @@ const Robots = () => {
 
     // const answer = [Item, Item, Item];
 
-    useEffect(() => {
-        const timer = setInterval(getAnswer, 2000);
-        return () => clearInterval(timer);
-    }, []);
+    // useEffect(() => {
+    //     const timer = setInterval(getAnswer, 2000);
+    //     return () => clearInterval(timer);
+    // }, []);
 
     return (
         <div>{JSON.stringify(answer)}</div>
-        // <Grid container alignItems="center" padding={5}>
-        //     {
-        //         answer.map((item) =>
-        //             <Grid item xs={3}>
-        //                 <RobotComponent item={item}></RobotComponent>
-        //             </Grid>
-        //         )
-        //     }
-        // </Grid>
+        // <Paper>
+        //     <Grid container alignItems="center" padding={5}>
+        //         {
+        //             answer.map((item) =>
+        //                 <Grid item xs={3}>
+        //                     <RobotComponent item={item}></RobotComponent>
+        //                 </Grid>
+        //             )
+        //         }
+        //     </Grid>
+        // </Paper>
     );
 }
 
