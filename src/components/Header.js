@@ -1,12 +1,13 @@
-import { AppBar, Link, Toolbar } from "@mui/material";
+import { AppBar, Toolbar, Typography } from "@mui/material";
+import SmartToyTwoToneIcon from "@mui/icons-material/SmartToyTwoTone";
 
 const Header = () => {
-    return (<AppBar position="static">
+    return (<AppBar position="static" color="primary" enableColorOnDark>
         <Toolbar>
-            <h1>Lazarillo Admin</h1>
-            <Link></Link>
+            <Typography variant="h4">Lazarillo Admin </Typography>
+            <SmartToyTwoToneIcon />
         </Toolbar>
     </AppBar>);
 }
- 
+
 export default Header;

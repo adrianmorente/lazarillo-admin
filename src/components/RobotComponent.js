@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Paper, Typography } from "@mui/material";
 import useWebSocket, { ReadyState } from "react-use-websocket";
+import { SignalWifi3Bar, SignalWifiOff } from "@mui/icons-material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const RobotComponent = ({ item }) => {
 
     const handleClick = () => {
-        console.log("clicado robot " + item.name);
+        sendMessage("to remove robot");
     };
 
-    const socketUrl = item.url;
+    const socketUrl = item.address;
     const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
-
-    useEffect(() => {
-        if (lastMessage !== null) {
-            console.log("last message: ", lastMessage.data);
-        }
-    }, [lastMessage]);
+    const { connectionIcon, setConnectionIcon } = useState();
 
     const connectionStatus = {
         [ReadyState.CONNECTING]: 'Connecting',
@@ -25,19 +22,35 @@ const RobotComponent = ({ item }) => {
         [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
     }[readyState];
 
+    useEffect(() => {
+        if (lastMessage !== null) {
+            console.log("last message: ", lastMessage.data);
+        }
+
+        if (connectionStatus === ReadyState.OPEN) {
+            setConnectionIcon(<SignalWifi3Bar color="success" />);
+        }
+        else {
+            setConnectionIcon(<SignalWifiOff color="secondary" />);
+        }
+    }, [lastMessage, connectionStatus, setConnectionIcon]);
+
+
     return (
         item ?
             <Paper elevation="12" sx={{ m: 1 }}>
-                <Typography variant="h5" >
-                    {item.name} - {item.version}
+                <Typography variant="subtitle1" >
+                    {item.name}
                 </Typography>
 
-                <Typography variant="h6" >
-                    {connectionStatus}
+                <Typography variant="body2" >
+                    {item.version}
                 </Typography>
+
+                {connectionIcon}
 
                 <Button onClick={handleClick}>
-                    Prueba
+                    <DeleteIcon />
                 </Button>
             </Paper>
             : <></>
